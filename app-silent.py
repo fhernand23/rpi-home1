@@ -34,7 +34,7 @@ def capture(filename):
 
 
 def upload(filename,photo_path):
-    dropbox_path = '/rpihomehz/%s' % (filename)
+    dropbox_path = '%s' % (filename)
     client = dropbox.Dropbox(dropbox_access_token)
     print("[SUCCESS] dropbox account linked")
 
