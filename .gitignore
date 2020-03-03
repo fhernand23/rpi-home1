@@ -1,4 +1,5 @@
 db.json
 auth_tw.py
 /.idea/*
-
+/credentials.json
+/token.pickle
