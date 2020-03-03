@@ -9,6 +9,6 @@ cd /home/pi/rpi-home1
 echo "`date` - start activate_system" > log_files/rpht.log
 
 # start flask app
-python3 app-silent.py
+nohup python3 app-silent.py > ./log_files/output.log &
 
 # TODO enable IR sensor
