@@ -8,7 +8,7 @@ Automation &amp; Security home issues
 
 ## Functionality:
 * Activate System
-`python3 /home/pi/hometasks/app.py`
+`python3 /home/pi/rpi-home1/app.py` (change)
 * Deactivate System
 `kill python3`
 * Restart System
@@ -19,7 +19,5 @@ Automation &amp; Security home issues
 * Capture image
 * Capture image and send to mail
 
-## Raspberry Pi
-* git pull origin master
-
-## Raspberry Pi
+## Special files:
+* 
