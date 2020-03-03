@@ -12,6 +12,17 @@ app = Flask(__name__)
 
 path = os.path.dirname(os.path.realpath(__file__))
 DBFILENAME = "./db.json"
+MON = 0
+TUE = 1
+WED = 2
+THU = 3
+FRI = 4
+SAT = 5
+SUN = 6
+HHMM1MIN = 800
+HHMM1MAX = 1300
+HHMM2MIN = 1800
+HHMM2MAX = 2100
 
 
 def capture(filename):
@@ -32,6 +43,18 @@ def upload(filename,photo_path):
 
     return 1
 
+
+def save_image(dt):
+    wd = dt.weekday()
+    hhmm = dt.hour*100+dt.minute
+    if wd in (MON,TUE,WED,THU,FRI):
+        if HHMM1MIN <= hhmm <= HHMM1MAX:
+            return True
+        elif HHMM2MIN <= hhmm <= HHMM2MAX:
+            return True
+    return False
+
+
 if __name__ == '__main__':
     print("Start application")
     done = False
@@ -41,10 +64,12 @@ if __name__ == '__main__':
             print('ALL DONE')
             break
         else:
-            timestamp = datetime.now().isoformat()
-            filename = 'img%s.jpg' % (timestamp)
-            photo_path = capture(filename)
-            upload(filename,photo_path)
+            datenow = datetime.now()
+            if save_image(datenow):
+                timestamp = datenow.isoformat()
+                filename = 'img%s.jpg' % timestamp
+                photo_path = capture(filename)
+                upload(filename,photo_path)
             # sleep 5 minutes
             time.sleep(300)
             continue
