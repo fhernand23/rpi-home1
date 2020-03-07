@@ -1,17 +1,15 @@
 # upload 1 image every 5 minutes
-from flask import Flask, render_template
 from picamera import PiCamera
 from datetime import datetime
 import os
 import time
 import dropbox
 from auth_dbox import (dropbox_access_token)
+import logging
 
-
-app = Flask(__name__)
 
 path = os.path.dirname(os.path.realpath(__file__))
-DBFILENAME = "./db.json"
+# DBFILENAME = "./db.json"
 MON = 0
 TUE = 1
 WED = 2
@@ -23,6 +21,7 @@ HHMM1MIN = 800
 HHMM1MAX = 1300
 HHMM2MIN = 1800
 HHMM2MAX = 2100
+logging.basicConfig(filename='log_files/app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s',level=logging.INFO)
 
 
 def capture(filename):
@@ -36,10 +35,10 @@ def capture(filename):
 def upload(filename,photo_path):
     dropbox_path = '/%s' % (filename)
     client = dropbox.Dropbox(dropbox_access_token)
-    print("[SUCCESS] dropbox account linked")
+    logging.info('Dropbox account linked')
 
     client.files_upload(open(photo_path, "rb").read(), dropbox_path)
-    print("[UPLOADED] {}".format(photo_path))
+    logging.info('File uploaded'.format(photo_path))
 
     return 1
 
@@ -56,12 +55,12 @@ def save_image(dt):
 
 
 if __name__ == '__main__':
-    print("Start application")
+    logging.info('Start application')
     done = False
     while True:
         # check if task is done
         if done:
-            print('ALL DONE')
+            logging.info('ALL DONE')
             break
         else:
             datenow = datetime.now()
