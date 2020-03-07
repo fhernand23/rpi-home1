@@ -21,7 +21,7 @@ HHMM1MIN = 800
 HHMM1MAX = 1300
 HHMM2MIN = 1800
 HHMM2MAX = 2100
-logging.basicConfig(filename='log_files/app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s',level=logging.INFO)
+logging.basicConfig(filename='log_files/app.log', filemode='w', format='%(asctime)s - %(levelname)s - %(message)s',level=logging.INFO)
 
 
 def capture(filename):
@@ -51,6 +51,7 @@ def save_image(dt):
             return True
         elif HHMM2MIN <= hhmm <= HHMM2MAX:
             return True
+
     return False
 
 
