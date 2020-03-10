@@ -5,3 +5,4 @@ auth_tw.py
 /token.pickle
 /auth_dbox.py
 /auth_slack.py
+/auth_imgur.py
