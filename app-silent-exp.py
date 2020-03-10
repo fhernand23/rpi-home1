@@ -6,6 +6,8 @@ import time
 import dropbox
 from auth_dbox import (dropbox_access_token)
 import logging
+from imgurpython import ImgurClient
+from auth_imgur import imgur_client_id,imgur_client_secret
 
 
 path = os.path.dirname(os.path.realpath(__file__))
@@ -32,19 +34,28 @@ def capture(filename):
     return photo_path
 
 
-def upload(filename,photo_path):
+def dbUpload(filename,photo_path):
     dropbox_path = '/%s' % (filename)
     client = dropbox.Dropbox(dropbox_access_token)
     logging.info('Dropbox account linked')
 
     client.files_upload(open(photo_path, "rb").read(), dropbox_path)
-    logging.info('File uploaded'.format(photo_path))
+    logging.info('File uploaded '.format(photo_path))
 
     return 1
 
 
-def uploadLocalAndCompile(filename,photo_path):
-    # get image
+def imgurUpload(photo_path):
+    client = ImgurClient(imgur_client_id, imgur_client_secret)
+
+    result = client.upload_from_path(photo_path, config=None, anon=True)
+    logging.info('File uploaded to imgur '.format(result['link']))
+
+    return result['link']
+
+
+def compareLastImagesForChanges():
+    # get last image
     # get last image
     # compare
     return 1
@@ -72,13 +83,15 @@ if __name__ == '__main__':
             break
         else:
             datenow = datetime.now()
-            if save_image(datenow):
+            # upload to dropbox every 5 minutes
+            if datenow.minute%5==0 and save_image(datenow):
                 timestamp = datenow.isoformat()
                 filename = 'img%s.jpg' % timestamp
                 photo_path = capture(filename)
-                upload(filename,photo_path)
-                uploadLocalAndCompile(filename,photo_path)
-            # sleep 5 minutes
-            time.sleep(300)
+                dbUpload(filename,photo_path)
+            # check for diferences every 1 minute
+            compareLastImagesForChanges()
+            # sleep 1 minutes
+            time.sleep(60)
             continue
 
