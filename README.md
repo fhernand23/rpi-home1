@@ -19,5 +19,11 @@ Automation &amp; Security home issues
 * Capture image
 * Capture image and send to mail
 
-## Special files:
-* 
+## Execution:
+* Activate System
+`./activate_system.sh`
+* Activate System Experimental
+`./activate_system_exp.sh`
+* View logs
+`tail -f ./log_files/app.log`
+
