@@ -75,13 +75,15 @@ def compare_last_images():
             i1link = imgur_upload(imagelast)
             i2link = imgur_upload(imagenow)
             # notify with webhook
-            SlackNotificator.sendmsgimg2("Imagenes no similares",i1link,i2link)
+            logging.info('Notification - 2 images are differents')
+            SlackNotificator.sendmsgimg2("Se detectó movimiento",i1link,i2link)
     else:
         logging.info("Image last not not exist")
     # delete imagelast
     os.remove(imagelast)
     # save imagenow as imagelast
     os.rename(imagenow,imagelast)
+    logging.info("images renamed ok")
 
     return 1
 
