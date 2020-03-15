@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 
+PLOT_IMAGES = False
+
 
 def mse(imageA, imageB):
     # the 'Mean Squared Error' between the two images is the
@@ -22,19 +24,23 @@ def compare_images(imageA, imageB, title):
     # index for the images
     m = mse(imageA, imageB)
     s =  metrics.structural_similarity(imageA, imageB)
-    # setup the figure
-    fig = plt.figure(title)
-    plt.suptitle("MSE: %.2f, SSIM: %.2f" % (m, s))
-    # show first image
-    ax = fig.add_subplot(1, 2, 1)
-    plt.imshow(imageA, cmap=plt.cm.gray)
-    plt.axis("off")
-    # show the second image
-    ax = fig.add_subplot(1, 2, 2)
-    plt.imshow(imageB, cmap=plt.cm.gray)
-    plt.axis("off")
-    # show the images
-    plt.show()
+    if PLOT_IMAGES:
+        # setup the figure
+        fig = plt.figure(title)
+        plt.suptitle("MSE: %.2f, SSIM: %.2f" % (m, s))
+        # show first image
+        ax = fig.add_subplot(1, 2, 1)
+        plt.imshow(imageA, cmap=plt.cm.gray)
+        plt.axis("off")
+        # show the second image
+        ax = fig.add_subplot(1, 2, 2)
+        plt.imshow(imageB, cmap=plt.cm.gray)
+        plt.axis("off")
+        # show the images
+        plt.show()
+    else:
+        print(title)
+        print("MSE: %.2f, SSIM: %.2f" % (m, s))
 
 
 # load the images -- the original, the original + contrast,
@@ -51,14 +57,15 @@ shopped = cv2.cvtColor(shopped, cv2.COLOR_BGR2GRAY)
 fig = plt.figure("Images")
 images = ("Original", original), ("Contrast", contrast), ("Photoshopped", shopped)
 # loop over the images
-for (i, (name, image)) in enumerate(images):
-	# show the image
-	ax = fig.add_subplot(1, 3, i + 1)
-	ax.set_title(name)
-	plt.imshow(image, cmap = plt.cm.gray)
-	plt.axis("off")
-# show the figure
-plt.show()
+if PLOT_IMAGES:
+    for (i, (name, image)) in enumerate(images):
+        # show the image
+        ax = fig.add_subplot(1, 3, i + 1)
+        ax.set_title(name)
+        plt.imshow(image, cmap = plt.cm.gray)
+        plt.axis("off")
+    # show the figure
+    plt.show()
 # compare the images
 compare_images(original, original, "Original vs. Original")
 compare_images(original, contrast, "Original vs. Contrast")
