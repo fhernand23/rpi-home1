@@ -68,9 +68,11 @@ def compare_last_images():
         camera.capture(imagenow)
     # compare
     if os.path.isfile(imagelast):
-        print("File exist")
+        logging.info("File imagelast exist")
         iutil = ImageUtil(imagelast, imagenow)
-        if not iutil.are_similar():
+        ssim = iutil.compare_images
+        logging.info("Structural Similarity: ",ssim)
+        if ssim > 0.95:
             # upload to imgur
             i1link = imgur_upload(imagelast)
             i2link = imgur_upload(imagenow)
