@@ -9,8 +9,8 @@ class ImageUtil():
         self.image1 = cv2.imread(image1)
         self.image2 = cv2.imread(image2)
         # convert the images to grayscale
-        self.image1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
-        self.image2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
+        self.image1 = cv2.cvtColor(self.image1, cv2.COLOR_BGR2GRAY)
+        self.image2 = cv2.cvtColor(self.image2, cv2.COLOR_BGR2GRAY)
 
     def mse(self):
         # the 'Mean Squared Error' between the two images is the
