@@ -77,10 +77,10 @@ def compare_last_images():
             # notify with webhook
             logging.info('Notification - 2 images are differents')
             SlackNotificator.sendmsgimg2("Se detectó movimiento",i1link,i2link)
+        # delete imagelast
+        os.remove(imagelast)
     else:
         logging.info("Image last not not exist")
-    # delete imagelast
-    os.remove(imagelast)
     # save imagenow as imagelast
     os.rename(imagenow,imagelast)
     logging.info("images renamed ok")
