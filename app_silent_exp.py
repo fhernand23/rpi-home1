@@ -72,7 +72,7 @@ def compare_last_images():
         iutil = ImageUtil(imagelast, imagenow)
         ssim = iutil.compare_images()
         logging.info("Structural Similarity " + str(ssim))
-        if ssim<0.90:
+        if ssim<0.95:
             # upload to imgur
             i1link = imgur_upload(imagelast)
             i2link = imgur_upload(imagenow)
