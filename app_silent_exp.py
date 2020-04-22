@@ -14,7 +14,6 @@ from notification import SlackNotificator
 
 base_path = os.path.dirname(os.path.realpath(__file__))
 # DBFILENAME = "./db.json"
-# active days
 MON = 0
 TUE = 1
 WED = 2
@@ -23,10 +22,13 @@ FRI = 4
 SAT = 5
 SUN = 6
 # active hour ranges
-HHMM1MIN = 800
-HHMM1MAX = 1300
-HHMM2MIN = 1800
-HHMM2MAX = 2100
+# HHMM1MIN = 800
+# HHMM1MAX = 1300
+# HHMM2MIN = 1800
+# HHMM2MAX = 2100
+# quarentine mode
+HHMM1MIN = 700
+HHMM1MAX = 2300
 logging.basicConfig(filename='log_files/app.log', filemode='w', format='%(asctime)s - %(levelname)s - %(message)s',level=logging.INFO)
 
 
@@ -93,11 +95,15 @@ def compare_last_images():
 def save_image(dt):
     wd = dt.weekday()
     hhmm = dt.hour*100+dt.minute
-    if wd in (MON,TUE,WED,THU,FRI):
+    # quarentine mode
+    if wd in (MON,TUE,WED,THU,FRI,SAT,SUN):
         if HHMM1MIN <= hhmm <= HHMM1MAX:
             return True
-        elif HHMM2MIN <= hhmm <= HHMM2MAX:
-            return True
+    #if wd in (MON,TUE,WED,THU,FRI):
+    #    if HHMM1MIN <= hhmm <= HHMM1MAX:
+    #        return True
+    #    elif HHMM2MIN <= hhmm <= HHMM2MAX:
+    #        return True
 
     return False
 
